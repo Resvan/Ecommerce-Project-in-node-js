@@ -1,0 +1,53 @@
+<div class="mt-5 pt-5 mb-5 p-b-105">
+    <div class="container">
+        <div class="row justify-content-center">
+         <% orederdItems.forEach(function(item){ %>
+        <div class="col-12 col-sm-6 col-md-4">
+        <div class="card mt-5 d-flex" style="width: 18rem;">
+                <img src="/product/<%= item.product.image1 %>" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h5 class="card-title"><b> <%= item.product.name %> </b></h5>
+                    <p class="card-text"><b>Size:<%= item.size %></b></p>
+                    <p class="card-text"><b>Quantity:<%= item.quantity %></b></p>
+                    <% if(item.product.proOffer) { %>
+                        <span class="stext-105 cl3">
+                            Rs: <b>
+                                <%= item.product.price %>
+                            </b>
+                        </span>
+                        <span class="stext-105 cl3">
+                            Rs: <del>
+                                <%= item.product.actualPrice %>
+                            </del> <span class="text-success"><b>
+                                    <%= item.product.offerPercentage %>% off
+                                </b></span>
+                        </span>
+                        <% } else if (item.product.categOffer) { %>
+                            <span class="stext-105 cl3">
+                                Rs: <b>
+                                    <%= item.product.price %>
+                                </b>
+                            </span>
+                            <span class="stext-105 cl3">
+                                Rs: <del>
+                                    <%= item.product.actualPrice %>
+                                </del> <span class="text-success"><b>
+                                        <%= item.product.offerPercentage %>% off
+                                    </b></span>
+                            </span>
+                            <% } else { %>
+                                <span class="stext-105 cl3">
+                                    Rs: <b>
+                                        <%= item.product.actualPrice %>
+                                    </b>
+                                </span>
+                                <% } %>
+                    <a href="/product-details?id=<%= item.product._id %>" class="btn btn-primary">View Product</a>
+            </div>
+        </div>
+       </div>
+        <% }) %>
+        </div>
+    </div>
+    
+</div>

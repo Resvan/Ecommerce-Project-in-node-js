@@ -1,0 +1,560 @@
+<style>
+    @import url("https://rsms.me/inter/inter.css");
+
+    :root {
+        --color-gray: #737888;
+        --color-lighter-gray: #e3e5ed;
+        --color-light-gray: #f7f7fa;
+    }
+
+
+    p {
+        color: var(--color-gray);
+    }
+
+    hr {
+        height: 1px;
+        width: 100%;
+        background-color: var(--color-light-gray);
+        border: 0;
+        margin: 2rem 0;
+    }
+
+    .containerAddForm {
+        max-width: 40rem;
+        /* padding: 10vw 2rem 0; */
+        margin: 0 auto;
+        /* height: 100vh; */
+    }
+
+    .formAddForm {
+        display: grid;
+        grid-gap: 1rem;
+    }
+
+    .fieldAddForm {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--color-lighter-gray);
+        padding: .5rem;
+        border-radius: .25rem;
+    }
+
+    .field__labelAddForm {
+        color: var(--color-gray);
+        font-size: 0.6rem;
+        font-weight: 300;
+        text-transform: uppercase;
+        margin-bottom: 0.25rem
+    }
+
+    .field__inputAddForm {
+        padding: 0;
+        margin: 0;
+        border: 0;
+        outline: 0;
+        font-weight: bold;
+        font-size: 1rem;
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: transparent;
+    }
+
+    .fieldAddForm:focus-within {
+        border-color: #000;
+    }
+
+    .fieldsAddForm {
+        display: grid;
+        grid-gap: 1rem;
+    }
+
+    .buttonAddForm {
+        background-color: #000;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: block;
+        color: #fff;
+        width: 100%;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        border: 0;
+        cursor: pointer;
+        outline: 0;
+    }
+
+    .cancelAddForm {
+        /* background-color: #979fd9; */
+        background-color: #fff;
+
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: block;
+        color: #000;
+        width: 100%;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid black;
+        cursor: pointer;
+        outline: 0;
+    }
+
+    .cancelAddForm:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+    .buttonAddForm:focus-visible {
+        background-color: #333;
+    }
+
+
+    .profile-pic {
+        height: 200px;
+        width: 200px;
+        border-radius: 50%;
+    }
+
+    .me-pointer:hover {
+        cursor: pointer !important;
+    }
+
+    #myOrders,
+    #myAddress {
+        display: none;
+    }
+
+    body {
+        font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+</style>
+
+<div class="container  m-t-100 m-b-100  pt-5" >
+    <div class="row">
+        <div class="col col-sm-12 col-lg-3 col-md-3  card justify-content-center d-flex">
+            <div class="card-body ml-3">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" class="profile-pic"
+                alt="">
+                <h5 class="my-3 text-center"><%= user.name %></h5>
+                <h5 class="my-3 text-center">
+                    Wallet
+                </h5>
+                <h5 class="my-3 text-center">
+                    Rs:  <%= user.wallet %>
+                </h5>
+                <a href="/orders" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">My orders</a>
+                <a href="/wallet-history" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 mt-3">Wallet History</a>
+            </div>
+        </div>
+        <div class="col col-sm-12 col-lg-9 col-md-9 border">
+            <div class="row justify-content-center">
+                <table class="table table-borderless table-responsive bg-primary ">
+                    <th><div class="col-12 col-md-4 h4 me-pointer text-white" id="detailsHead" onclick="myDetailsShow()" style="min-width: max-content">My Details
+                    </div></th>
+                </table>
+            </div>
+
+            <!-- My Profile -->
+            <div class="container mt-3 p-5 me-box-shadow" style="border-radius: 18px" id="myDetails">
+                <form id="personal-form" class="">
+                    <span class="h2">Personal Information</span>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group ">
+                                <input type="text" class="form-control form-control-lg meToggleDisable" id="fname"
+                                    value="<%= user.name %>" placeholder="First Name" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="email" class="form-control form-control-lg meToggleDisable" id="email" value="<%= user.email %>"
+                                    placeholder="Enter Email" disabled>
+                                <span class="d-none" id="emailErrorMsg" style="color: red">Email already used!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="phone" class="form-control form-control-lg meToggleDisable" id="phone" value="<%= user.phone %>"
+                                    placeholder="Phone Number" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="d-flex">
+                            <button type="button" class=" text-white btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                                Change Password
+                            </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-danger mr-1 d-none" id="cancelBtn" onclick="cancelEditBtn()">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="editDetailsBtn" onclick="editDetails()">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- My Address -->
+            <div class="container mt-3 me-pointer d-block" id="myAddress">
+                <div class="container border me-box-shadow ">
+                    <span class="d-block p-3 font-weight-bold text-primary " onclick="addAddressShow()"> <span
+                            class="h3">+</span> &nbsp; &nbsp; &nbsp; ADD A NEW ADDRESS</span>
+
+                    <div class="container d-none" id="addAddressDiv">
+                        <div class="containerAddForm mt-5">
+                            <h1>Shipping</h1>
+                            <p>Please enter your shipping details.</p>
+                            <hr />
+                            <!-- <form action="add-address-profile" method="post" > -->
+                            <div class="formAddForm">
+
+                                <div class="row">
+                                    <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                                        <label class="fieldAddForm">
+                                            <span class="field__labelAddForm" for="firstname">Name</span>
+                                            <input class="field__inputAddForm" type="text" id="firstname" name="name" placeholder="Name"/>
+                                        </label>
+                                        <input type="text" name="id" id="id" value="" hidden>
+                                    </div>
+                                    <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                                        <label class="fieldAddForm">
+                                            <span class="field__labelAddForm" for="lastname">10-digit mobile
+                                                number</span>
+                                            <input class="field__inputAddForm" type="tel" id="lastname" name="phone" placeholder="Phone"/>
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="fieldAddForm">
+                                    <span class="field__labelAddForm" for="country">Country</span>
+                                    <input type="text" class="field__inputAddForm" name="country" id="country" placeholder="Country">
+                                </label>
+
+                                <label class="fieldAddForm">
+                                    <span class="field__labelAddForm" for="address">Address</span>
+                                    <input class="field__inputAddForm" type="text" name="address" id="address" placeholder="Address"/>
+                                </label>
+
+                                <div class="row">
+                                    <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+                                        <label class="fieldAddForm">
+                                            <span class="field__labelAddForm" for="zipcode">Pincode</span>
+                                            <input class="field__inputAddForm" type="text" name="pincode"
+                                                id="zipcode" placeholder="Pincode"/>
+                                        </label>
+                                    </div>
+                                    <div class="col col-12 col-lg-4 col-md-6 col-sm-12">
+                                        <label class="fieldAddForm">
+                                            <span class="field__labelAddForm" for="city">Town / City</span>
+                                            <input class="field__inputAddForm" name="city" type="text" id="city" placeholder="City"/>
+                                        </label>
+                                    </div>
+                                    <div class="col col-12 col-lg-4 col-md-12 col-sm-12">
+                                        <label class="fieldAddForm">
+                                            <span class="field__labelAddForm" for="state">State</span>
+                                            <input type="text" class="field__inputAddForm" name="state" id="state" placeholder="State">
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col col-12 col-lg-6 col-md-12 col-sm-12">
+                                        <label class="fieldAddForm">
+                                            <span class="field__labelAddForm" for="district">District</span>
+                                            <input class="field__inputAddForm" type="text" id="district"
+                                                name="district" placeholder="District"/>
+                                        </label>
+                                    </div>
+                                    <div class="col col-12 col-lg-6 col-md-12 col-sm-12">
+                                        <label class="fieldAddForm">
+                                            <span class="field__labelAddForm" for="firstname">Landmark</span>
+                                            <input class="field__inputAddForm" type="text" id="landmark"
+                                                name="landmark" placeholder="landmark"/>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row mt-3 mb-3">
+                                    <div class="col col-8 col-lg-8 col-sm-12">
+                                        <button class="buttonAddForm mb-3" onclick="addAddress()">ADD ADDRESS</button>
+                                        <!-- <button class="buttonAddForm mb-3" >ADD ADDRESS</button> -->
+                                    </div>
+                                    <div class="col col-4 col-lg-4 col-sm-12">
+                                        <button class="cancelAddForm mb-3" onclick="addAddressHide()"
+                                            id="hideAddressBtn">CANCEL</button>
+                                        <!-- <button class="cancelAddForm mb-3"  id="hideAddressBtn">CANCEL</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </form> -->
+                        </div>
+                    </div>
+                </div>
+
+                <% user.address.forEach(address=> { %>
+                    <div class="container mt-3 me-pointer border p-3">
+                        <div class="row pl-3 justify-content-between">
+                            <span class="h5 " style="color: #000">
+                                <%= address.name %> &nbsp; &nbsp; &nbsp; <%= address.phone %>
+                            </span>
+                            <a href="" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 "
+                                data-toggle="dropdown">
+                                <i class="zmdi zmdi-more-vert px-5" aria-labelledby="dropdownMenuButton"
+                                    style="font-size: x-large"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <span class="dropdown-item" onclick="deleteAddress('<%= address.id %>')">Delete</span>
+                            </div>
+                        </div>
+                        <span class="d-block">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium,
+                            harum!</span>
+                        <span class="d-block">Kerala - 94858394</span>
+
+                        
+                    </div>
+                    <% }); %>
+
+            </div>
+            <!-- Modal for change password-->
+            <div class="modal fade mt-5" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                <div class="modal-dialog d-flex justify-content-center">
+                    <div class="modal-content mt-5 w-75">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">Change Password</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            <p class="text-danger" id="error" hidden>oops!!! something went wrong!!!</p>
+                            <form id="changePassword">
+                                <!-- Email input -->
+                                <div class="form-outline mb-4">
+                                    <i class="fa fa-lock prefix grey-text"></i>
+                                    <input type="password" class="form-control" name="password" placeholder="Old password" />
+                                    <label class="form-label" for="">Old Password</label>
+                                </div>
+            
+                                <!-- password input -->
+                                <div class="form-outline mb-4">
+                                    <i class="fa fa-lock prefix grey-text"></i>
+                                    <input type="password" class="form-control" name="newpassword" placeholder="New Password" />
+                                    <label class="form-label" for="">New Password</label>
+                                </div>
+            
+                                <!-- Submit button -->
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success">Save changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Toggle around Details, Address, Orders -->
+<script>
+    function myDetailsShow() {
+        document.getElementById('myDetails').style.display = "block";
+        document.getElementById('myAddress').style.display = "none";
+        document.getElementById('myOrders').style.display = "none";
+
+        //Head\
+        document.getElementById('addressHead').classList.add('text-dark');
+        document.getElementById('detailsHead').classList.remove('text-dark');
+        document.getElementById('detailsHead').classList.add('text-white');
+    }
+
+    function ordersShow() {
+        document.getElementById('myOrders').style.display = "block";
+        document.getElementById('myAddress').style.display = "none";
+        document.getElementById('myDetails').style.display = "none";
+    }
+</script>
+
+
+<!-- Edit Details -->
+<script>
+    function editDetails() {
+        var disabled = document.getElementById("fname").disabled;
+        if (disabled) {
+            document.querySelectorAll('.meToggleDisable').forEach(e => e.disabled = false);
+            document.getElementById('editDetailsBtn').innerHTML = 'SAVE'
+            document.getElementById('editDetailsBtn').classList.add('btn-success')
+            document.getElementById('cancelBtn').classList.remove('d-none')
+        } else {  // To save the changes
+
+            $.ajax({
+                url: '/edit-user-details',
+                data: {
+                    name: $('#fname').val(),
+                    email: $('#email').val(),
+                    phone: $('#phone').val(),
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response.success) {
+                        document.querySelectorAll('.meToggleDisable').forEach(e => e.disabled = true);
+                        document.getElementById('editDetailsBtn').innerHTML = 'EDIT'
+                        document.getElementById('editDetailsBtn').classList.add('btn-primary')
+                        document.getElementById('editDetailsBtn').classList.remove('btn-success')
+                        document.getElementById('emailErrorMsg').classList.add('d-none')
+
+                        Swal.fire(
+                            'Good job!',
+                            'Your details has been Updated',
+                            'success'
+                        )
+                    }
+                    else if (response.emailExist) {
+                        document.getElementById('emailErrorMsg').classList.remove('d-none')
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.message,
+                        })
+                    }
+                }
+            })
+        }
+    }
+    function cancelEditBtn(){
+        document.querySelectorAll('.meToggleDisable').forEach(e => e.disabled = true);
+        document.getElementById('editDetailsBtn').innerHTML = 'Edit'
+        document.getElementById('editDetailsBtn').classList.remove('btn-succes')
+        document.getElementById('cancelBtn').classList.add('d-none')
+    }
+</script>
+
+<!-- Address  -->
+<script>
+    let uniqueId = Date.now()
+    document.getElementById("id").value = uniqueId;
+    function addAddressShow() {
+        document.getElementById('addAddressDiv').classList.remove('d-none')
+    }
+    function addAddressHide() {
+        document.getElementById('addAddressDiv').classList.add('d-none')
+    }
+
+    function addAddress() {
+        $.ajax({
+            url: '/add-address',
+            data: {
+                id: $('input[name=id]').val(),
+                name: $('input[name=name]').val(),
+                phone: $('input[name=phone]').val(),
+                country: $('input[name=country]').val(),
+                address: $('input[name=address]').val(),
+                pincode: $('input[name=pincode]').val(),
+                city: $('input[name=city]').val(),
+                state: $('input[name=state]').val(),
+                district: $('input[name=district]').val(),
+                landmark: $('input[name=landmark]').val()
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    Swal.fire(
+                        'Good job!',
+                        'The Address is added successfully!',
+                        'success'
+                    ).then(()=>{
+                         location.reload()
+                    })
+                }
+            }
+        })
+    }
+
+</script>
+
+<!-- Edit/Delete Address -->
+<script>
+    function deleteAddress(addressId) {
+        $.ajax({
+            url: '/delete-address',
+            data: {
+                addressId: addressId
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    location.hash = 'addressShow'
+                    Swal.fire(
+                        'Good job!',
+                        'The address is deleted!',
+                        'success'
+                    ).then(()=>{
+                        location.reload()
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                    })
+                }
+            }
+        })
+    }  
+// <------------------------------Change Password------------------------------------->
+$('#changePassword').submit((e) =>{
+    e.preventDefault()
+    $.ajax({
+        url:'/change-password',
+        method: 'post',
+        data: $('#changePassword').serialize(),
+        success: (response) => {
+            if (response.success) {
+
+                Swal.fire({
+                    position: "",
+                    icon: "success",
+                    title: "password changed successfully",
+                    showConfirmButton: true,
+                    confirmButtonColor: '#fbb710',
+
+                }).then(() => {
+                    location.reload()
+
+                })
+            } else {
+                Swal.fire({
+                    position: "",
+                    icon: "warning",
+                    title: "password Incorrect Try again !!!",
+                    showConfirmButton: true,
+                    confirmButtonColor: '#fbb710',
+
+                });
+                document.getElementById('error').removeAttribute("hidden")
+            }
+        }
+    })
+})
+</script>
+
+
+
+
+
+
+
+
+

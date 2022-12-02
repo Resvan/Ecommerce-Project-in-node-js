@@ -1,0 +1,306 @@
+<!-- breadcrumb -->
+<div class="container m-t-60">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+        <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+            Home
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+
+        <span class="stext-109 cl4">
+            Shoping Cart
+        </span>
+    </div>
+</div>
+
+<!-- Shoping Cart -->
+<form class="bg0 p-t-75 p-b-85" id="checkout-form">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+                <div class="m-l-25 m-r--38 m-lr-0-xl">
+                    <div class="wrap-table-shopping-cart">
+                        <div id="accordion">
+                            <h5 class="text-dark"><b> Select Address </b></h5>
+                            <% address.forEach(function(address){%>
+                                <input class="form-check-input position-static ml-1" onclick="selectAddress('<%= address.name %>','<%= address.address %>','<%= address.city %>','<%= address.state %>','<%= address.district %>','<%= address.pincode %>','<%= address.phone %>')" type="checkbox" name="address" id="<%= address.id %>">
+                            <label class="custom-control-label ml-4"
+                                for="<%= address.id %>"><%= address.name %><br><%= address.address %>,<%= address.city %>,<%= address.state %><br><%= address.district %>,<%= address.pincode %>,<%= address.phone %></label>
+                                <%})%>
+                            <div class="card">
+                                <div class="card-header bg-dark">
+                                    <h5 class="mb-0">
+                                        <div class="text-white" aria-controls="collapseThree">
+                                            Delivery address
+                                        </div>
+                                    </h5>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#accordion">
+                                    <div class="card-body">
+                                        <input id="name" class="form-control" type="text" name="name" placeholder="Name"
+                                            required />
+                                        <input id="housename" class="form-control m-t-15" type="text" name="housename"
+                                            placeholder="House Name" required />
+                                        <input id="town" class="form-control m-t-15" type="text" name="town" placeholder="town"
+                                            required />
+                                        <input id="district" class="form-control m-t-15" type="text" name="district" required
+                                            placeholder="District" />
+                                        <input id="state" class="form-control m-t-15" type="text" name="state" placeholder="State"
+                                            required />
+                                        <input id="pincode" class="form-control m-t-15" type="number" name="pincode" required
+                                            placeholder="Pin Code" />
+                                        <!-- <input class="form-control m-t-15" type="email" name="email" placeholder="Email"
+                                            required /> -->
+                                        <input id="phone" class="form-control m-t-15" type="number" name="phone"
+                                            placeholder="Phone Number" required />
+                                        <input type="text" name="userId" id="" value="<%= userId %>" hidden />
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Coupen -->
+                  
+
+            <div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50"> 
+                <div class="d-flex  m-tb-5 m-l-57">
+                    <input id="coupon" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text" name="coupon"
+                        placeholder="Coupon Code">
+                    <button type="button" onclick="couponApply()"
+                        class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                        Apply Coupen
+                    </button>
+                </div>
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                    <h4 class="mtext-109 cl2 p-b-30">
+                        Cart Totals
+                    </h4>
+
+                    <div class="flex-w flex-t p-t-27">
+                        <div class="size-208">
+                            <span class="mtext-101 cl2">
+                               Sub Total:
+                            </span>
+                        </div>
+                        <div class="size-209 p-t-1">
+                            <h4 class="mtext-110 cl2 m-l-63 font-weight-bold">
+                                <%= amount %>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="flex-w flex-t ">
+                        <div class="size-208">
+                            <span class=" cl2">
+                                Discount:
+                            </span>
+                        </div>
+                        <div class="size-209 p-t-1">
+                            <p id="discount" class=" cl2 m-l-63 ">
+                                
+                            </p>
+                            <input type="number" name="discount" id="discount-price" value="" hidden>
+                        </div>
+                    </div>
+                    <div class="flex-w flex-t p-t-27  p-b-33">
+                        <div class="size-208">
+                            <span class="mtext-101 cl2">
+                                Total:
+                            </span>
+                        </div>
+                        <div class="size-209 p-t-1">
+                            <h4 id="total" class="mtext-110 cl2 m-l-63 font-weight-bold">
+                                <%= amount %>
+                            </h4>
+                        </div>
+                    </div>
+                    <h4 class="mtext-109 cl2 p-b-30">
+                        Payment Option
+                    </h4>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment" value="Razorpay"
+                            checked />
+                        <label class="form-check-label" for="paymentMethod">
+                            Razorpay
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment" value="Paypal" />
+                        <label class="form-check-label" for="paymentMethod">
+                            Paypal
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment" value="COD" />
+                        <label class="form-check-label" for="paymentMethod">
+                            Cash On Delivery
+                        </label>
+                    </div>
+                    <% if (user.wallet > amount){ %>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="payment" value="Wallet" />
+                        <label class="form-check-label" for="paymentMethod">
+                            Wallet
+                        </label>
+                    </div>
+                <% } %>
+                <input type="text" name="coupon" id="couponName" value="" hidden>
+                    <button type="submit" id="submitId"
+                        class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 m-t-25">
+                        Proceed to Checkout
+                    </button>
+                </div>
+</form>
+                                      
+            </div>
+        </div>
+    </div>
+
+
+<script>
+
+    function selectAddress(name, housename, town, district, state, pincode, phone) {
+        document.getElementById('name').value = name
+        document.getElementById('housename').value = housename
+        document.getElementById('town').value = town
+        document.getElementById('district').value = district
+        document.getElementById('state').value = state
+        document.getElementById('pincode').value = pincode
+        document.getElementById('phone').value = phone
+
+    }
+    function couponApply() {
+            console.log("entered")
+            let couponCode = document.getElementById('coupon').value
+            console.log(couponCode);
+            $.ajax({
+                url: '/coupon-apply',
+                data: {
+                    coupon: couponCode,
+                },
+                method: 'post',
+                success: (response) => {
+                    console.log(response)
+                    if (response.couponSuccess) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Coupon Applied Successfully",
+                            showConfirmButton: false,
+                            timer: 1000,
+                        });
+
+                        document.getElementById('total').innerHTML = response.total
+
+                        document.getElementById('discount').innerHTML = response.discountValue
+                        document.getElementById('couponName').value = response.couponCode
+                        document.getElementById('discount-price').value = response.discountValue
+
+                    } else if (response.couponUsed) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "warning",
+                            title: "You are Already Used This Coupon",
+                            showConfirmButton: false,
+                            timer: 1000,
+                        });
+
+                    } else if (response.couponExpired) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "warning",
+                            title: "Entered Coupon Expired",
+                            showConfirmButton: false,
+                            timer: 1000,
+                        });
+                    } else {
+                        Swal.fire({
+                            position: "center",
+                            icon: "warning",
+                            title: "Invalid Coupon",
+                            showConfirmButton: false,
+                            timer: 1000,
+                        });
+                    }
+                }
+            })
+    }
+</script>
+
+<script>
+    $('#checkout-form').submit((e) => {
+        e.preventDefault()
+        $.ajax({
+            url: '/place-order',
+            method: 'post',
+            data: $('#checkout-form').serialize(),
+            success: (response) => {
+                if(response.codSuccess){
+                  location.href = '/order-success'
+                }else if(response.paypal){
+                      location.href = response.link
+                } 
+                else{
+                    razorPayment(response)
+                }
+                
+            }
+        })
+    })
+    function razorPayment(order) {
+            var options = {
+                "key": "rzp_test_uuBimV2WQk9mkZ", // Enter the Key ID generated from the Dashboard
+                "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "The Trend Hub fashion",
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+                "handler": function (response) {
+
+
+                    verifyPayment(response, order)
+
+                },
+                "prefill": {
+                    "name": "Resvan",
+                    "email": "resvan@example.com",
+                    "contact": "6238577673"
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzpl = new Razorpay(options);
+            rzpl.open();
+
+        }
+    function verifyPayment(payment, order){
+        $.ajax({
+            url:'/verify-payment',
+            data:{
+                payment,
+                order
+            },
+            method:'post',
+            success: (response)=>{
+                if (response.status){
+                    location.href = '/order-success'
+                }else{
+                    alert('Payment Faild')
+                }
+                
+            }
+        })
+        
+    }
+</script>

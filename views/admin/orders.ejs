@@ -1,0 +1,169 @@
+<style>
+    a { 
+        margin-left: 1rem;
+        border: 1rem;
+    }
+</style>
+<!-- Header -->
+<div class="header bg-gradient-primary col-m  pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Navbar -->
+            <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+                <div class="container-fluid">
+                    <!-- Brand -->
+                    <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="/admin">Orders</a>
+                    <!-- Form -->
+                    <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+                        <div class="form-group mb-0">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="Search" type="text">
+                            </div>
+                        </div>
+                    </form>
+                    <!-- User -->
+                    <ul class="navbar-nav align-items-center d-none d-md-flex">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <div class="media align-items-center">
+                                    <span class="avatar avatar-sm rounded-circle">
+                                        <img alt="Image placeholder" src="/assets/img/theme/team-4-800x800.jpg">
+                                    </span>
+                                    <div class="media-body ml-2 d-none d-lg-block">
+                                        <span class="mb-0 text-sm  font-weight-bold">Jessica Jones</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+                               
+                                <div class="dropdown-divider"></div>
+                                <a href="/admin/logout" class="dropdown-item">
+                                    <i class="ni ni-user-run"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+        </div>
+    </div>
+</div>
+<!-- End Header -->
+<div class="container-fluid">
+    <div class="mt-5 pt-5">
+        <div class="container p-t-100 mb-5 justify-content-center">
+            <h3 class="mb-3 text-center text-primary font-weight-bold">Your orders</h3>
+            <table class="table table-borderless table-responsive" id="vieworders">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">OrderID</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Discount</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Options</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <% var i=1; orders.forEach(function(order){ %>
+                        <tr>
+                            <td><%= i++ %></td>
+                            <td class="text-uppercase">ID:<%= order._id %>
+                            </td>
+                            <td>
+                                <%= order.date.getDate()+"."+order.date.getMonth()+"."+order.date.getFullYear() %>
+                            </td>
+                            <td>
+                                <a href="/admin/view-order-products/<%= order._id %>">View Product</a>
+                            </td>
+                            <td><b>
+                                    <%= order.total + order.discount %>
+                                </b></td>
+                                <td><b>
+                                        <%=  order.discount %>
+                                    </b></td>
+                                    <td><b>
+                                            <%= order.total %>
+                                        </b></td>
+                            <td>
+                                <%= order.paymentMethod %>
+                            </td>
+                            <td id="order-status" class="text-uppercase">
+                                <%= order.status %>
+                            </td>
+                            <td>
+                                <% if(order.status == "Delivered"){ %>
+                                    <h4 class="text-success">Order Delivered <br> Successfully</h4>
+                                 <% } else if(order.status == "Cancelled")  { %>
+                                     <h4 class="text-danger">Order Cancelld <br> Successfully</h4>
+                                    <% } else if(order.status=="Returned" ) { %>
+                                        <h4 class="text-danger">Order Returned <br> Successfully</h4>
+                                <% } else{ %>
+                                     <form action="/admin/change-order-status" method="post">
+                                        <input type="text" name="orderId" value="<%= order._id %>" hidden>
+                                             <select name="status" class="form-select btn btn-secondary dropdown-toggle " aria-label="Default select example">
+                                                <% if(order.status=="Pending" ){ %>
+                                                    <option value="Placed">placed</option>
+                                                    <% } else if(order.status=="placed" ) { %>
+                                                        <option value="Shipped">shipped</option>
+                                                    <% } else if(order.status=="Shipped" ) { %>
+                                                    <option value="Delivered">Delivered</option>
+                                                    <% } else  { %>
+                                                    <option value="Cancelled">Cancell</option>
+                                                    <% } %>
+                                                </select>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    <% } %>
+
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+    
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function cancelOrder(orderId) {
+        $.ajax({
+            url: '/cancel-order',
+            data: {
+                order: orderId
+            },
+            method: 'post',
+            success: (response) => {
+                document.getElementById('order-status').innerHTML = 'Canceld'
+                $('.js-addcart-detail').each(function () {
+                    swal('Order', "is Calceld !", "success");
+                });
+            }
+        })
+    }
+</script>
+<script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#vieworders').DataTable({
+            //"dom": "blfrti",
+            "searching": false,
+            "paging": true,
+            'ordering': false,
+            'info': false,
+            "lengthChange": false,
+            //"paginationType": "custom",
+        });
+    });
+</script>

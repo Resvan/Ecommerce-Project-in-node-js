@@ -1,0 +1,351 @@
+
+<!-- Header -->
+<div class="header bg-gradient-primary py-7 py-lg-5">
+    <div class="container">
+        <div class="header-body text-center ">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1 class="text-white">Edit Product</h1>
+                    <p class="text-lead text-light"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="separator separator-bottom separator-skew zindex-100">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+            xmlns="http://www.w3.org/2000/svg">
+            <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+        </svg>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container pb-5">
+    <!-- Table -->
+    <% if(product){ %>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card bg-secondary shadow border-0">
+                <div class="card-body px-lg-5 py-lg-5">
+                    <form action="/admin/edit-product" method="post" enctype="multipart/form-data">
+                        <!-- 2 column grid layout with text inputs for the first and last names -->
+                        <div class="row mb-2">
+                            <div class="col">
+                                <% if(message.length> 0){ %>
+                                    <h5 class="alert alert-danger">
+                                        <%= message %>
+                                    </h5>
+                                    <% } %>
+                                <div class="form-outline">
+                                    <label for="id"></label>
+                                    <input class="form-control d-none" type="text" id="id" 
+                                        name="id" value="<%= product._id %>" />
+                                </div>
+                                <div class="form-outline">
+                                    <label for="name"></label>
+                                    <input class="form-control" type="text" id="name" onkeyup="validateName()" name="name" value="<%= product.name %>" />
+                                </div>
+                                <span id="name-error"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            
+                                <div class="col">
+                                    <div class="form-outline ">
+                                        <label for="name">Select Category</label><select name="category" id="catergoy"
+                                            class="w-100 form-control">
+                                            <option>
+                                                <%= product.category %>
+                                            </option>
+                                            <% category.forEach(function(item){ %>
+                                                <option>
+                                                    <%= item.name %>
+                                                </option>
+                                            <% }) %>
+                                            
+                                                
+                                                
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                    <div class="col ">
+                                        <div class="form-outline">
+                                            <label for="price">Price</label>
+                                            <input class="form-control" type="number" id="price"
+                                                 name="price" onkeyup="validatePrice()" value="<%= product.price %>" />
+                                        </div>
+                                        <span id="price-error"></span>
+                                    </div>
+                        </div>
+                                <label for="Stock">Stock</label>
+                                <div class="row">
+                                    <div class="col-6 col-sm-4 col-md-2 mb-1">
+                                        <input id="stock-s" name="S" type="number" class="form-control validate" placeholder="S" value="<%= product.stock.S %>"
+                                            onkeyup="validateStock_S()" />
+                                        <small id="size-s-error"></small>
+                                    </div>
+                                
+                                    <div class="col-6 col-sm-4 col-md-2 mb-1">
+                                        <input id="stock-m" name="M" type="number" class="form-control validate" placeholder="M" value="<%= product.stock.M %>"
+                                            onkeyup="validateStock_M()" />
+                                        <small id="size-m-error"></small>
+                                    </div>
+                                
+                                    <div class="col-6 col-sm-4 col-md-2 mb-1">
+                                        <input id="stock-l" name="L" type="number" class="form-control validate" placeholder="L" value="<%= product.stock.L %>"
+                                            onkeyup="validateStock_L()" />
+                                        <small id="size-l-error"></small>
+                                    </div>
+                                
+                                    <div class="col-6 col-sm-6 col-md-3 mb-1">
+                                        <input id="stock-xl" name="XL" type="number" class="form-control validate" placeholder="XL" value="<%= product.stock.XL %>"
+                                            onkeyup="validateStock_XL()" />
+                                        <small id="size-xl-error"></small>
+                                    </div>
+                                
+                                    <div class="col-sm-6 col-md-3 mb-1">
+                                        <input id="stock-xxl" name="XXL" type="number" class="form-control validate" placeholder="XXL" value="<%= product.stock.XXL %>"
+                                            onkeyup="validateStock_XXL()" />
+                                        <small id="size-xxl-error"></small>
+                                    </div>
+                                
+                                </div>
+                        <div class="row mb-1">
+                            <div class="col mt-2">
+                                <label for=""></label>
+                                <img src="/product/<%= product.image1 %>" alt="" id="imgView1" width="100rem">
+                                <input id="fileinput1" type="file"   name="image1" onclick="validateImage1()" onchange="viewImage1(event)" />
+                                <span id="image1-error"></span>
+                                
+                            </div>
+                            <div class="col mt-2 ">
+                                <img src="/product/<%= product.image2 %>" alt="" id="imgView2" width="100rem">
+                                <label for=""></label>
+                                <input id="fileInput2" type="file"  name="image2" onclick="validateImage2()" onchange="viewImage2(event)" />
+                                <span id="image2-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-1">
+                            <div class="col mt-2">
+                                <img src="/product/<%= product.image3 %>" alt="" id="imgView3" width="100rem">
+                                <label for=""></label>
+                                <input id="fileInput3" type="file" name="image3" onclick="validateImage3()" onchange="viewImage3(event)"  />
+                                <span id="image3-error"></span>
+                            </div>
+                            <div class="col mt-2">
+                                <img src="/product/<%= product.image4 %>" alt="" id="imgView4" width="100rem">
+                                <label for=""></label>
+                                <input id="fileInput4" type="file"  name="image4" onclick="validateImage4()" onchange="viewImage4(event)" />
+                                <span id="image4-error"></span>
+                            </div>
+                        </div>
+
+
+
+                        <!-- Password input -->
+                        <div class="form-outline mb-3">
+                            <label class="form-label" for="description">Description</label>
+                            <input type="text" name="description" id="description"
+                                class="form-control form-control-lg" value="<%= product.description %>" />
+
+                        </div>
+
+
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-block mb-4">Edit Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
+</div>
+<script>
+    const invalidChars = ["-", "e", "+", "E"];
+    $("input[type='number']").on("keydown", function (e) {
+        if
+            (invalidChars.includes(e.key)) { e.preventDefault(); }
+    })
+</script>
+<script>
+    function viewImage1(event){
+        document.getElementById('imgView1').src=URL.createObjectURL(event.target.files[0])
+    }
+    function viewImage2(event) {
+            document.getElementById('imgView2').src = URL.createObjectURL(event.target.files[0])
+        }
+    function viewImage3(event) {
+         document.getElementById('imgView3').src = URL.createObjectURL(event.target.files[0])
+         }
+    function viewImage4(event) {
+         document.getElementById('imgView4').src = URL.createObjectURL(event.target.files[0])
+            }
+</script>
+
+
+
+<script>
+    var nameError = document.getElementById('name-error');
+    var priceError = document.getElementById('price-error');
+    var sizeErrorS = document.getElementById('size-s-error');
+    var sizeErrorM = document.getElementById('size-m-error');
+    var sizeErrorL = document.getElementById('size-l-error');
+    var sizeErrorXL = document.getElementById('size-xl-error');
+    var sizeErrorXXL = document.getElementById('size-xxl-error');
+
+
+    function validateName() {
+        var name = document.getElementById('name').value.trim();
+
+        if (name.length == 0) {
+            nameError.innerHTML = 'Name is Required';
+            nameError.style.color = 'red'
+            return false;
+        }
+
+        if (!name.match(/^[A-Za-z ]*$/)) {
+            nameError.innerHTML = 'Write a FullName';
+            nameError.style.color = 'red'
+            return false;
+        }
+
+        if (name.length < 3) {
+            nameError.innerHTML = 'Enter minimum 3 charactors';
+            nameError.style.color = 'red'
+            return false;
+        }
+
+        nameError.innerHTML = 'Name is valid';
+        nameError.style.color = 'green'
+        return true;
+    }
+
+
+
+
+    function validatePrice() {
+        var price = document.getElementById("price").value.trim();
+        if (price.length == 0) {
+            priceError.innerHTML = 'Price is required';
+            priceError.style.color = 'red'
+
+            return false;
+        }
+
+        priceError.innerHTML = ""
+        priceError.innerHTML = "Price is valid"
+        priceError.style.color = 'green'
+        return true;
+
+
+    }
+    function validateStock() {
+        var stock = document.getElementById("stock").value.trim();
+        if (stock.length == 0) {
+            stockError.innerHTML = 'Stock is required';
+            stockError.style.color = 'red'
+
+            return false;
+        }
+
+        stockError.innerHTML = ""
+        stockError.innerHTML = "Stock is valid"
+        stockError.style.color = 'green'
+        return true;
+
+
+    }
+    function validateStock_S() {
+            var stock = document.getElementById("stock-s").value.trim();
+            if (stock.length == 0) {
+                sizeErrorS.innerHTML = 'Required';
+                sizeErrorS.style.color = 'red'
+
+                return false;
+            }
+
+            sizeErrorS.innerHTML = ""
+            sizeErrorS.innerHTML = "Valid"
+            sizeErrorS.style.color = 'green'
+            return true;
+
+
+        }
+        function validateStock_M() {
+            var stock = document.getElementById("stock-m").value.trim();
+            if (stock.length == 0) {
+                sizeErrorM.innerHTML = 'Required';
+                sizeErrorM.style.color = 'red'
+
+                return false;
+            }
+
+            sizeErrorM.innerHTML = ""
+            sizeErrorM.innerHTML = "Valid"
+            sizeErrorM.style.color = 'green'
+            return true;
+
+
+        }
+        function validateStock_L() {
+            var stock = document.getElementById("stock-l").value.trim();
+            if (stock.length == 0) {
+                sizeErrorL.innerHTML = 'Required';
+                sizeErrorL.style.color = 'red'
+
+                return false;
+            }
+
+            sizeErrorL.innerHTML = ""
+            sizeErrorL.innerHTML = "Valid"
+            sizeErrorL.style.color = 'green'
+            return true;
+
+
+        }
+        function validateStock_XL() {
+            var stock = document.getElementById("stock-xl").value.trim();
+            if (stock.length == 0) {
+                sizeErrorXL.innerHTML = 'Required';
+                sizeErrorXL.style.color = 'red'
+
+                return false;
+            }
+
+            sizeErrorXL.innerHTML = ""
+            sizeErrorXL.innerHTML = "Valid"
+            sizeErrorXL.style.color = 'green'
+            return true;
+
+
+        }
+        function validateStock_XXL() {
+            var stock = document.getElementById("stock-xxl").value.trim();
+            if (stock.length == 0) {
+                sizeErrorXXL.innerHTML = 'Required';
+                sizeErrorXXL.style.color = 'red'
+
+                return false;
+            }
+
+            sizeErrorXXL.innerHTML = ""
+            sizeErrorXXL.innerHTML = "Valid"
+            sizeErrorXXL.style.color = 'green'
+            return true;
+
+
+        }
+        
+
+    $(document).on("submit", "form", function (e) {
+        if (validateName() && validatePrice() && validateStock() && validateStock_S() && validateStock_M() && validateStock_L() && validateStock_XL() && validateStock_XXL()) {
+
+        } else {
+            e.preventDefault();
+            alert('invalid data')
+            return false;
+        }
+    })
+</script>

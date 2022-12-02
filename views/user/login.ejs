@@ -1,0 +1,65 @@
+<div class="mt-5 pt-5">
+    <div class="row  justify-content-center mt-5 mb-5 mr-0">
+        <div class="col-md-6">
+            <div class="card w-75 mx-5">
+                <div class="card-header text-center"><h1 class="font-weight-bold">Login</h1></div>
+                <div class="card-body">
+                   <form class="form-horizontal" method="post" action="/login">
+                    <% if(message.length> 0){ %>
+                        <h5 class="alert alert-danger">
+                            <%= message %>
+                        </h5>
+                        <% } %>
+    
+                        <div class="form-group">
+                            <label for="email" class="cols-sm-2 control-label">Your Email</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope fa"
+                                            aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="email" id="email"
+                                        placeholder="Enter your Email" />
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="password" class="cols-sm-2 control-label">Password</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg"
+                                            aria-hidden="true"></i></span>
+                                    <input type="password" class="form-control" name="password" id="password"
+                                        placeholder="Enter your Password" />
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-group ">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
+                        </div>
+                    </form>
+                    <form class="form-horizontal" method="post" action="/otp-login">
+                    <h6>OTP Login</h6>
+                    <div class="form-group">
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-phone fa" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter your phone number" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Otp Login</button>
+                    </div>
+                    </form>
+                    <div class="login-register">
+                        <a href="/signup" class=""><small>Create new account</small></a>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</div>
+

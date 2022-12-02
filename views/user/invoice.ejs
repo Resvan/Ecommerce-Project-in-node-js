@@ -1,0 +1,65 @@
+
+<div class="mt-5 pt-5">
+    <div class="container p-t-100 mb-5 justify-content-center" id="invoice">
+      <div class="row justify-content-center">
+        <h3 class="mb-3 text-center text-primary font-weight-bold">The Trend Hub Invoice</h3>
+        <table class="table table-borderless table-responsive">
+            <thead>
+                <tr>
+                    <th scope="col">OrderID</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Discount</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Payment</th>
+                    <th scope="col">Address</th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                    <tr>
+                        <td class="text-uppercase">ID:<%= order._id %>
+                        </td>
+                        <td>
+                            <%= order.date.getDate()+"."+order.date.getMonth()+"."+order.date.getFullYear() %>
+                        </td>
+                        <td><b>
+                            <%= order.discount + order.total %> 
+                            </b></td>
+                        <td><b>
+                            <%= order.discount  %>
+                        </b></td>
+                        <td><b>
+                                <%= order.total %>
+                            </b></td>
+                        <td>
+                            <%= order.paymentMethod %>
+                        </td>
+                        <td>
+                            <%= order.address.name %><br>
+                                <%= order.address.housename %>,<%= order.address.town %> <br>
+                                        <%= order.address.district %>,<%= order.address.pincode %>
+                        </td>
+                    </tr>
+            </tbody>
+
+        </table>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <button class="btn btn-success ml-auto mb-5" onclick="downloadInvoice()">Download</button>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.1/html2pdf.bundle.min.js"></script>
+<script>
+    function downloadInvoice(){
+        const element = document.getElementById('invoice');
+        html2pdf().from(element).save()
+    }
+</script>
