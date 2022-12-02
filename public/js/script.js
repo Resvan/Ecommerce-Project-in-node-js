@@ -29,13 +29,17 @@ function addToWishList(proId) {
         method: 'get',
         success: (response) => {
             if (response.status) {
-                $('.js-wish-detail').each(function () {
-                    swal(product, "is added to wishlist !", "success");
-                });
+                Swal.fire(
+                    'Added!',
+                    'Product added to wishlist',
+                    'success'
+                )
             } else {
-                $('.js-wish-detail').each(function () {
-                    swal(product, "is removed form wishlist !", "success");
-                });
+                Swal.fire(
+                    'Removed!',
+                    'Product Removed from whishlist',
+                    'success'
+                )
             }
             
         }
@@ -48,10 +52,14 @@ function removeFromWishlist(prodId) {
         url: '/remove-form-wishlist/'+ prodId,
         method: 'get',
         success: (response) => {
-            $('.js-wish-detail').each(function () {
-                swal(product, "is removed form wishlist !", "success");
-            });
-            location.reload()
+            Swal.fire(
+                'Removed!',
+                'Product remove from wishlist',
+                'success'
+            ).then(() => {
+                location.reload()
+            })
+            
         }
         
     })

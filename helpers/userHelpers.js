@@ -20,8 +20,11 @@ module.exports = {
             }else {
                 userData.password = await bcrypt.hash(userData.password, 10)
                 const user = new User(userData)
-                user.save()
-                resolve(response.status = true)
+                user.save().then(() => {
+                    response.status = true
+                    resolve(response)
+                })
+               
 
             }
 
