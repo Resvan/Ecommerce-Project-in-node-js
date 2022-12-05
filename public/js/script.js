@@ -1,5 +1,4 @@
 function addToCart(proId) {
-    let product = document.getElementById('product-name').innerHTML
     let size = document.getElementById('p-size')
     var proSize = size.options[size.selectedIndex].text;
         $.ajax({
@@ -13,9 +12,11 @@ function addToCart(proId) {
                     let count = $('#cart-count').html()
                     count = parseInt(count) + 1
                     $('#cart-count').html(count) 
-                    $('.js-addcart-detail').each(function () {
-                        swal(product, "is added to cart !", "success");
-                    });
+                    Swal.fire(
+                        'Added!',
+                        'Product added to wishlist',
+                        'success'
+                    )
                 }
                 
             }
@@ -34,7 +35,11 @@ function addToWishList(proId) {
                     'Product added to wishlist',
                     'success'
                 )
-            } else {
+            } 
+            
+        },
+        error: (error) => {
+            if (error) {
                 Swal.fire(
                     'Removed!',
                     'Product Removed from whishlist',

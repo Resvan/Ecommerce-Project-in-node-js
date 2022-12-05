@@ -54,7 +54,7 @@ app.use('/', userRoutes.routes);
 app.use('/admin', adminRoutes.routes);
 
 app.set('errorPage', false)
-app.all('*', (req, res, next) => {
+app.all('*', (req, res) => {
     res.render('errorPage',{layout:'errorPage'})
 });
 
