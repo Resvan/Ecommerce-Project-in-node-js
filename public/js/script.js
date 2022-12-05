@@ -14,7 +14,7 @@ function addToCart(proId) {
                     $('#cart-count').html(count) 
                     Swal.fire(
                         'Added!',
-                        'Product added to wishlist',
+                        'Product added to cart',
                         'success'
                     )
                 }
