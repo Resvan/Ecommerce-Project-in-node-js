@@ -11,6 +11,7 @@ const viewSalesManagement = async (req, res) => {
     const weekly = await weeklyReport()
     const yearly = await yearlyReport()
     const categWise = await categoryWiseSales()
+    res.locals.user = req.user
     res.render('admin/salesReport', {data, daily, weekly, yearly, categWise})
 }
 

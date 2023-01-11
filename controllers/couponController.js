@@ -37,6 +37,7 @@ const applyCoupon = async (req, res) => {
 
 const viewAllCoupons = (req, res) => {
     getAllCoupons().then((allCoupons) => {
+        res.locals.user = req.user
         res.render('admin/coupons',{allCoupons})
     }).catch(() => {
         res.redirect('/admin/add-coupon')
@@ -46,6 +47,7 @@ const viewAllCoupons = (req, res) => {
 
 
 const viewAddCoupon = (req, res) => {
+    req.locals.user = req.user
     res.render('admin/addCoupon')
 }
 
@@ -61,6 +63,7 @@ const addNewCoupon = (req, res) => {
 const viewEditcoupon = (req, res) => {
     couponId = req.params.id
     getOneCoupon(couponId).then((coupon) => {
+        res.locals.user = req.user
         res.render('admin/editCoupon',{coupon})
     }).catch(() => {
         res.redirect('/admin/coupons')

@@ -16,7 +16,9 @@ function addToCart(proId) {
                         'Added!',
                         'Product added to cart',
                         'success'
-                    )
+                    ).then(() => {
+                        location.href = '/cart'
+                    })
                 }
                 
             }

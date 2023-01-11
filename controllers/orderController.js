@@ -98,6 +98,7 @@ const viewInvoice =async (req, res) => {
 
 const ordersView =async (req, res) => {
     let orders = await getAllOrdersList()
+    res.locals.user = req.user
         res.render('admin/orders',{orders})
     }
 
@@ -113,6 +114,7 @@ const changeOrderStatus = (req, res) => {
 const vieworderedProducts = async (req, res) => {
     let orderId = req.params.id
     let orederdItems = await orderdProductsView(orderId)
+    res.locals.user = req.user
     res.render('admin/orderedProducts', { orederdItems })
 }
 

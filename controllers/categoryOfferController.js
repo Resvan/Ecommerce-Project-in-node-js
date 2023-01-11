@@ -7,12 +7,14 @@ const {
 
 const viewAllCategoryOffers = (req, res) => {
     getAllCategoryOffers().then((offers) => {
+        res.locals.user = req.user
         res.render('admin/categoryOffer',{offers})
     })
 }
 
 const viewAddCategoryOffer = (req, res) => {
     getAllCategory().then((categories) => {
+        res.locals.user = req.user
         res.render('admin/addCategoryOffer', {categories, message: req.flash('message')})
     })
 }
@@ -36,6 +38,7 @@ const deleteCategoryOffer = (req, res) => {
 const viewEditCategoryOffer = (req, res) => {
     const offerId = req.params.id
     getOneCategoryOffer(offerId).then((offer) => {
+        res.locals.user = req.user
         res.render('admin/editCategoryOffer',{offer, message: req.flash('message')})
     })
 }

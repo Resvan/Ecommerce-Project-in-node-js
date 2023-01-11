@@ -31,6 +31,7 @@ module.exports = {
 
    allProductsView: (req, res) => {
         productHelper.getAllProduct().then((products) => {
+            res.locals.user = req.user
             res.render('admin/products',{products, message: req.flash('message')})
         })
         
@@ -38,6 +39,7 @@ module.exports = {
 
     addProductView: (req, res) => {
         adminHelper.getAllCategory().then((category) => {
+            req.locals.user = req.user
             res.render('admin/addProduct',{category, message: req.flash('message')})
         })
         
@@ -60,7 +62,8 @@ module.exports = {
     editProductView:async (req, res) => {
         let proId = req.params.id
         let category = await adminHelper.getAllCategory()
-         productHelper.getOneProduct(proId).then((product) => {
+        productHelper.getOneProduct(proId).then((product) => {
+            res.locals.user = req.user
             res.render('admin/editProduct', { product, category, message: req.flash('message') })
          })
     },

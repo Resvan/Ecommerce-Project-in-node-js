@@ -20,6 +20,7 @@
                     </form>
                     <!-- User -->
                     <ul class="navbar-nav align-items-center d-none d-md-flex">
+                        <% if (res.locals.user){ %>
                         <li class="nav-item dropdown">
                             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
@@ -44,6 +45,7 @@
                                 </a>
                             </div>
                         </li>
+                        <% } %>
                     </ul>
                 </div>
             </nav>
@@ -73,7 +75,7 @@
                         </thead>
                         <tbody>
                             <%if (category.length>0){ %>
-                                <% var i=1; category.forEach(function(category){  %>
+                                <% var i=0; category.forEach(function(category){  %>
                             <tr>
                                 <td>
                                     <%= i++ %>

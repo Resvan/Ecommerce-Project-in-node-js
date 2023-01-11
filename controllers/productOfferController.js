@@ -8,12 +8,14 @@ const {
 
 const viewAllProductOffers = (req, res) => {
     getAllproductOffers().then((offers) => {
+        res.locals.user = req.user
         res.render('admin/productOffer', {offers})
     })
 }
 
 const viewAddProductOffer = (req, res) => {
     getAllProduct().then((products) => {
+        res.locals.user = req.user
         res.render('admin/addProductOffer', {products, message: req.flash('message')})
     })
 }
@@ -36,6 +38,7 @@ const deleteProductOffer = (req, res) => {
 const veiwEditProductOffer = (req, res) => {
     const offerId = req.params.id
     getOneProductOffer(offerId).then((offer) => {
+        res.locals.user = req.user
         res.render('admin/editProductOffer',{offer, message: req.flash('message')})
     })
 }

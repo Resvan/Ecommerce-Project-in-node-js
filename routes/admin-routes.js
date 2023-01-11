@@ -91,7 +91,7 @@ router.get('/edit-product-offer/:id', adminController.checkAuthenticated, veiwEd
 router.post('/edit-product-offer', adminController.checkAuthenticated, editProductOffer)
 
 
-router.get('/sale-report',viewSalesManagement)
+router.get('/sale-report', adminController.checkAuthenticated, viewSalesManagement)
 
 module.exports = {
     routes: router

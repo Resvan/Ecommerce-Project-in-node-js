@@ -49,6 +49,7 @@ module.exports = {
         const revenueYearly= await  yearlyRevenue()
         const revenueTotal = await totalRevenue()
         const userCount = await totalUsers()
+        res.locals.user = req.user
         res.render('admin/dashboard', { revenueDaily, revenueWeekly, revenueYearly, revenueTotal, userCount })
     },
 
@@ -58,6 +59,7 @@ module.exports = {
 
     usersView : (req, res) => {
         adminHelper.getAllUser().then((users) => {
+            res.locals.user = req.user
             res.render('admin/users', { users })
         })
 
@@ -84,6 +86,7 @@ module.exports = {
 
     categoryView: (req, res) => {
         adminHelper.getAllCategory().then((category) => {
+            res.locals.user = req.user
             res.render('admin/category', {category, message: req.flash('message')})
         })
         
@@ -91,6 +94,7 @@ module.exports = {
 
 
     viewAddCateogry: (req, res) => {
+        res.locals.user = req.user
         res.render('admin/addCategory', { message: req.flash('message') })
     },
 
@@ -109,6 +113,7 @@ module.exports = {
     vieweditCategory: (req, res) => {
         let categId = req.params.id
         adminHelper.categoryEditview(categId).then((category) => {
+            res.locals.user = req.user
             res.render('admin/editCategory',{category, message: req.flash('message')})
         })
 
