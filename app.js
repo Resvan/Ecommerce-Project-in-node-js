@@ -8,11 +8,12 @@ const flash = require('connect-flash')
 const connectDB = require('./config/db')
 const adminRoutes = require('./routes/admin-routes');
 const userRoutes = require('./routes/user-routes');
-
+const cron = require('node-cron');
 
 
 // Passport Authentication for user
-const { loginCheck } = require('./auth/adminPassport')
+const { loginCheck } = require('./auth/adminPassport');
+const { updateOfferExpireForProduct, updateCatgoryOfferExpireForProduct } = require('./CronJobs/offerExpire');
 loginCheck(passport)
 
 
@@ -48,7 +49,14 @@ app.use(passport.initialize());
 app.use(passport.session())
 
 
-
+cron.schedule('0 0 * * *', async () => {
+    console.log('Running cron job to update product offers...');
+    await updateOfferExpireForProduct();
+    await updateCatgoryOfferExpireForProduct();
+    console.log('Cron job completed.');
+}, {
+    scheduled: true
+});
 
 app.use('/', userRoutes.routes);
 app.use('/admin', adminRoutes.routes);

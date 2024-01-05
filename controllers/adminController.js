@@ -84,12 +84,14 @@ module.exports = {
 
 
 
-    categoryView: (req, res) => {
-        adminHelper.getAllCategory().then((category) => {
-            res.locals.user = req.user
-            res.render('admin/category', {category, message: req.flash('message')})
-        })
-        
+    categoryView: async (req, res) => {
+        try {
+            const category = await adminHelper.getAllCategory();
+            res.locals.user = req.user;
+            res.render('admin/category', { category, message: req.flash('message'), res: res });
+        } catch (error) {
+            console.log(error);
+        }
     },
 
 

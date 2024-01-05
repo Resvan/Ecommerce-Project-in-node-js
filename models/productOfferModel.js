@@ -10,10 +10,12 @@ const productOfferSchema = mongoose.Schema({
 
     },
     startDate: {
-
+        type: Date,
+        required: true
     },
     endDate: {
-
+        type: Date,
+        required: true
     }
 })
 const ProductOffer = mongoose.model("ProductOffer", productOfferSchema);

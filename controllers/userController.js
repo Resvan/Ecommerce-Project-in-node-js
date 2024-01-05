@@ -16,10 +16,10 @@ const { startCategoryOffer }= require('../helpers/categoryOfferHelper')
 
 // User Home Page
 const viewHome = async (req, res) => {
-    const products = await productHelper.getProductHome()
-    const category = await adminHelper.getAllCategory()
     await startProductOffer()
     await startCategoryOffer()
+    const products = await productHelper.getProductHome()
+    const category = await adminHelper.getAllCategory()
     res.locals.user = req.session.user
     let cartCount = 0
     if (req.session.user) {

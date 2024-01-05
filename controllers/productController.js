@@ -39,7 +39,7 @@ module.exports = {
 
     addProductView: (req, res) => {
         adminHelper.getAllCategory().then((category) => {
-            req.locals.user = req.user
+            res.locals.user = req.user
             res.render('admin/addProduct',{category, message: req.flash('message')})
         })
         

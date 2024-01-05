@@ -10,10 +10,12 @@ const categoryOfferSchema = mongoose.Schema({
         
     },
     startDate: {
-
+        type: Date,
+        required: true
     },
     endDate: {
-
+        type: Date,
+        required: true
     }
 })
 const CategoryOffer = mongoose.model("CategoryOffer", categoryOfferSchema);

@@ -95,40 +95,44 @@ const productOfferEdit = (offerData) => {
 //<----------------------------------------------------------------------------->
  
 
-const startProductOffer = () => {
-    return new Promise((resolve, reject) => {
-        const today = new Date()
-        ProductOffer.find().then((response) => {
-            const offers = response.filter((offer) => {
-                if (moment(today).isSameOrAfter(offer.startDate) && moment(today).isSameOrBefore(offer.endDate)) {
-                    return offer
-                }
-            })
-            offers.map(async (offer) => {
-                const product = await Product.findOne({ name: offer.product, proOffer: false, categOffer:false })
-                if (product) {
-                    const actualPrice = parseInt(product.price)
-                    const newPrice = (actualPrice * offer.offer) / 100
-                    const offerPrice = newPrice.toFixed()
-                    Product.findByIdAndUpdate(product._id, {
-                        $set: {
-                            proOffer: true,
-                            price: actualPrice - offerPrice,
-                            actualPrice: actualPrice,
-                            offerPercentage: offer.offer
-                        }
+const startProductOffer = async () => {
+    try {
+        const today = new Date();
+        const offers = await ProductOffer.find({
+            startDate: { $lte: today },
+            endDate: { $gte: today }
+        });
+        for (const offer of offers) {
+            const product = await Product.findOne({
+                name: offer.product,
+                proOffer: false,
+                categOffer: false
+            });
 
-                    }).then(() => {
+            if (product) {
+                const actualPrice = parseInt(product.price);
+                const newPrice = (actualPrice * offer.offer) / 100;
+                const offerPrice = newPrice.toFixed();
 
-                    }) 
-                }
-            })
-            resolve()
-        })
-        resolve()
-    })
-    
-}
+                await Product.findByIdAndUpdate(product._id, {
+                    $set: {
+                        proOffer: true,
+                        price: actualPrice - offerPrice,
+                        actualPrice: actualPrice,
+                        offerPercentage: offer.offer
+                    }
+                });
+            }
+        }
+
+        console.log("Product offers updated successfully");
+    } catch (error) {
+        console.error("Error in updating product offers:", error);
+    }
+};
+
+
+
 
 
 module.exports = {

@@ -100,40 +100,43 @@ const catergoryOfferEdit = (offer) => {
 
 
 
-const startCategoryOffer = () => {
-    return new Promise((resolve, reject) => {
-        const today = new Date()
-        CategoryOffer.find().then((response) => {
-            const offers = response.filter((offer) => {
-                if (moment(today).isSameOrAfter(offer.startDate) && moment(today).isSameOrBefore(offer.endDate)) {
-                    return offer;
-                }
+const startCategoryOffer = async () => {
+    try {
+        const today = new Date();
+        const categoryOffers = await CategoryOffer.find({
+            startDate: { $lte: today },
+            endDate: { $gte: today }
+        });
+
+        for (const offer of categoryOffers) {
+            const products = await Product.find({
+                category: offer.category,
+                categOffer: false,
+                proOffer: false
             });
-            offers.map(async (offer) => {
-                const products = await Product.find({ category: offer.category, categOffer: false, proOffer: false });
-                if (products) {
-                    products.map(async (product) => {
-                        const actualPrice = parseInt(product.price);
-                        const newPrice = (actualPrice * offer.offer) / 100;
-                        const offerPrice = newPrice.toFixed();
-                        Product.findByIdAndUpdate(product._id, {
-                            $set: {
-                            categOffer: true,
-                            price: actualPrice - offerPrice,
-                            actualPrice: actualPrice,
-                            offerPercentage: offer.offer
-                            }
-                        }).then(() => {
-                            
-                        });
-                    });
-                }
-                resolve();
-            });
-        })
-        resolve()
-    })
-}
+
+            for (const product of products) {
+                const actualPrice = parseInt(product.price);
+                const newPrice = (actualPrice * offer.offer) / 100;
+                const offerPrice = newPrice.toFixed();
+
+                await Product.findByIdAndUpdate(product._id, {
+                    $set: {
+                        categOffer: true,
+                        price: actualPrice - offerPrice,
+                        actualPrice: actualPrice,
+                        offerPercentage: offer.offer
+                    }
+                });
+            }
+        }
+
+        console.log("Category offers updated successfully");
+    } catch (error) {
+        console.error("Error in updating category offers:", error);
+        throw error;
+    }
+};
 
 module.exports = {
     getAllCategoryOffers, addCategoryOffer, catergoryOfferDelete, getOneCategoryOffer,
